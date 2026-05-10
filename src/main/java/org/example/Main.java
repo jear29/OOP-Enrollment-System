@@ -3,8 +3,11 @@ package org.example;
 import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
+import org.example.model.Section;
 import org.example.service.CourseRegistration;
+import org.example.service.IInstructorService;
 import org.example.service.IStudentService;
+import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
 
@@ -25,6 +28,20 @@ public class Main {
 
         // delete
         studentService.removeStudent(new Student("000123", "John Doe", "Computer Science"));
+
+        // INSTRUCTOR REGISTRATION
+        IInstructorService instructorService = new InstructorServiceImpl();
+
+        // create
+        Instructor newInstructor = new Instructor("I-001", "Jane Smith", "Software Engineering");
+        instructorService.addInstructor(newInstructor);
+
+        // assign to section
+        Section section = new Section("SE-101", 30);
+        instructorService.assignInstructorToSection(newInstructor, section);
+
+        // read
+        System.out.println(instructorService.getInstructorDetails(newInstructor));
 
         // COURSE REGISTRATION
         CourseRegistration courseRegistration = new CourseRegistration();
