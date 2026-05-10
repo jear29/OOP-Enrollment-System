@@ -11,18 +11,12 @@ public class Instructor extends Person {
         this.course = course;
     }
 
-    public String getProgram() {
+    public String getCourse() {
         return course;
     }
 
-    public void setProgram(String program) {
+    public void setCourse(String course) {
         this.course = course;
-    }
-
-    public void display() {
-        System.out.printf("\nInstructor ID: %s\n", super.getID());
-        System.out.printf("Instructor Name: %s\n", super.getName());
-        System.out.printf("Program: %s\n", getProgram());
     }
 
     @Override
@@ -30,7 +24,7 @@ public class Instructor extends Person {
         return "Instructor{" +
                 "instructorID='" + super.getID() + '\'' +
                 ", instructorName='" + super.getName() + '\'' +
-                ", program='" + course + '\'' +
+                ", course='" + course + '\'' +
                 '}';
     }
 
