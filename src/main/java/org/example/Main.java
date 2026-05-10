@@ -1,13 +1,16 @@
 package org.example;
 
 import org.example.model.Course;
+import org.example.model.Department;
 import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.model.Section;
 import org.example.service.ICourseService;
+import org.example.service.IEnrollmentService;
 import org.example.service.IInstructorService;
 import org.example.service.IStudentService;
 import org.example.service.impl.CourseServiceImpl;
+import org.example.service.impl.EnrollmentServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
@@ -58,6 +61,18 @@ public class Main {
 
         // delete
         courseService.removeCourse(new Course("00001", "Information Management", "Information Technology"));
+
+        // ENROLLMENT / DEPARTMENT SERVICE
+        IEnrollmentService enrollmentService = new EnrollmentServiceImpl();
+        Student currentStudent = new Student("000123", "John Doe", "Information Technology");
+        Section currentSection = new Section("IT-101", 40);
+
+        // enroll
+        enrollmentService.enrollStudentInSection(currentStudent, currentSection);
+
+        // department hierarchy
+        Department compSciDept = new Department("D-01", "Computer Science");
+        enrollmentService.viewDepartmentHierarchy(compSciDept);
         TuitionFeePayment tuitionFeePayment = new TuitionFeePayment();
 
         System.out.println(tuitionFeePayment.calculateTuitionFee(3, .10));
