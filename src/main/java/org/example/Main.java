@@ -5,7 +5,7 @@ import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.service.CourseRegistration;
 import org.example.service.IStudentService;
-import org.example.service.StudentServiceImpl;
+import org.example.service.impl.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
 
 import javax.swing.plaf.BorderUIResource;

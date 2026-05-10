@@ -1,6 +1,7 @@
-package org.example.service;
+package org.example.service.impl;
 
 import org.example.model.Student;
+import org.example.service.IStudentService;
 
 import java.util.ArrayList;
 import java.util.List;
