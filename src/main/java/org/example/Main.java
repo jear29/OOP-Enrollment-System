@@ -8,8 +8,6 @@ import org.example.service.IStudentService;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
 
-import javax.swing.plaf.BorderUIResource;
-
 public class Main {
     public static void main(String[] args) {
 

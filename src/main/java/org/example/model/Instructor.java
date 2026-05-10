@@ -3,9 +3,10 @@ package org.example.model;
 public class Instructor extends Person {
     private String course;
 
-    public Instructor() {}
+    public Instructor() {
+    }
 
-    public Instructor (String ID, String name, String course) {
+    public Instructor(String ID, String name, String course) {
         super(ID, name);
         this.course = course;
     }
