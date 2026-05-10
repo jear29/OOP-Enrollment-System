@@ -9,11 +9,13 @@ import org.example.service.ICourseService;
 import org.example.service.IEnrollmentService;
 import org.example.service.IInstructorService;
 import org.example.service.IStudentService;
+import org.example.model.TuitionFeePayment;
+import org.example.service.ITuitionService;
 import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.EnrollmentServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
-import org.example.service.TuitionFeePayment;
+import org.example.service.impl.TuitionServiceImpl;
 
 public class Main {
     public static void main(String[] args) {
@@ -73,12 +75,14 @@ public class Main {
         // department hierarchy
         Department compSciDept = new Department("D-01", "Computer Science");
         enrollmentService.viewDepartmentHierarchy(compSciDept);
+        // TUITION FEE SERVICE
+        ITuitionService tuitionService = new TuitionServiceImpl();
         TuitionFeePayment tuitionFeePayment = new TuitionFeePayment();
 
-        System.out.println(tuitionFeePayment.calculateTuitionFee(3, .10));
-        tuitionFeePayment.makePayment(2700);
-        System.out.println(tuitionFeePayment.getRemainingBalance());
-        System.out.println(tuitionFeePayment.isFullyPaid());
+        System.out.println(tuitionService.calculateFee(tuitionFeePayment, 3, .10));
+        tuitionService.makePayment(tuitionFeePayment, 2700);
+        System.out.println(tuitionService.getRemainingBalance(tuitionFeePayment));
+        System.out.println(tuitionService.isFullyPaid(tuitionFeePayment));
 
         Student student = new Student();
         student.mainTask();
