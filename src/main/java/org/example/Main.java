@@ -4,9 +4,10 @@ import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.model.Section;
-import org.example.service.CourseRegistration;
+import org.example.service.ICourseService;
 import org.example.service.IInstructorService;
 import org.example.service.IStudentService;
+import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
@@ -44,19 +45,19 @@ public class Main {
         System.out.println(instructorService.getInstructorDetails(newInstructor));
 
         // COURSE REGISTRATION
-        CourseRegistration courseRegistration = new CourseRegistration();
+        ICourseService courseService = new CourseServiceImpl();
 
         // create
-        courseRegistration.save(new Course("00001", "Integrative Programming", "Information Technology"));
+        courseService.addCourse(new Course("00001", "Integrative Programming", "Information Technology"));
 
         // read
-        courseRegistration.displayAll();
+        System.out.println(courseService.getAllCourses());
 
         // update
-        courseRegistration.updateCourse(new Course("00001", "Information Management", "Information Technology"));
+        courseService.updateCourse(new Course("00001", "Information Management", "Information Technology"));
 
         // delete
-        courseRegistration.removeCourse(new Course("00001", "Information Management", "Information Technology"));
+        courseService.removeCourse(new Course("00001", "Information Management", "Information Technology"));
         TuitionFeePayment tuitionFeePayment = new TuitionFeePayment();
 
         System.out.println(tuitionFeePayment.calculateTuitionFee(3, .10));
