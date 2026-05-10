@@ -19,11 +19,6 @@ public class Student extends Person {
         this.program = program;
     }
 
-    public void display() {
-        System.out.printf("\nStudent ID: %s\n", super.getID());
-        System.out.printf("Student Name: %s\n", super.getName());
-        System.out.printf("Program: %s\n", getProgram());
-    }
 
     @Override
     public String toString() {

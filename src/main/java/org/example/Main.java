@@ -4,7 +4,8 @@ import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.service.CourseRegistration;
-import org.example.service.StudentRegistration;
+import org.example.service.IStudentService;
+import org.example.service.StudentServiceImpl;
 import org.example.service.TuitionFeePayment;
 
 import javax.swing.plaf.BorderUIResource;
@@ -13,19 +14,19 @@ public class Main {
     public static void main(String[] args) {
 
         // STUDENT REGISTRATION
-        StudentRegistration studentRegistration = new StudentRegistration();
+        IStudentService studentService = new StudentServiceImpl();
 
         // create
-        studentRegistration.saveStudent(new Student("000123", "John Doe", "Information Technology"));
+        studentService.addStudent(new Student("000123", "John Doe", "Information Technology"));
 
         // read
-        studentRegistration.displayAllStudent();
+        System.out.println(studentService.getAllStudents());
 
         // update
-        studentRegistration.updateStudent(new Student("000123", "John Doe", "Computer Science"));
+        studentService.updateStudent(new Student("000123", "John Doe", "Computer Science"));
 
         // delete
-        studentRegistration.removeStudent(new Student("000123", "John Doe", "Computer Science"));
+        studentService.removeStudent(new Student("000123", "John Doe", "Computer Science"));
 
         // COURSE REGISTRATION
         CourseRegistration courseRegistration = new CourseRegistration();
