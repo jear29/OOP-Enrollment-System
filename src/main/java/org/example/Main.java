@@ -1,7 +1,10 @@
 package org.example;
 
+import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
+import org.example.model.Section;
+import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 
@@ -11,6 +14,7 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     static StudentServiceImpl studentService = new StudentServiceImpl();
     static InstructorServiceImpl instructorService = new InstructorServiceImpl();
+    static CourseServiceImpl courseService = new CourseServiceImpl();
 
     public static void main(String[] args) {
         boolean running = true;
@@ -20,6 +24,7 @@ public class Main {
             System.out.println("======================================");
             System.out.println("[1] Student Management");
             System.out.println("[2] Instructor Management");
+            System.out.println("[3] Course Management");
             System.out.println("[0] Exit");
             System.out.print("Choice: ");
 
@@ -28,6 +33,7 @@ public class Main {
             switch (choice) {
                 case "1" -> studentMenu();
                 case "2" -> instructorMenu();
+                case "3" -> courseMenu();
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -139,8 +145,7 @@ public class Main {
                     String iid = scanner.nextLine();
                     System.out.print("Section ID: ");
                     String sid = scanner.nextLine();
-                    
-                    // Finding the real instructor first to get their name correctly in the output
+
                     Instructor target = null;
                     for (Instructor i : instructorService.getAllInstructors()) {
                         if (i.getID().equals(iid)) {
@@ -148,7 +153,7 @@ public class Main {
                             break;
                         }
                     }
-                    
+
                     if (target != null) {
                         instructorService.assignInstructorToSection(target, new Section(sid, 0));
                     } else {
@@ -170,6 +175,60 @@ public class Main {
                     System.out.print("ID to remove: ");
                     String id = scanner.nextLine();
                     String result = instructorService.removeInstructor(new Instructor(id, "", ""));
+                    System.out.println("Result: " + result);
+                }
+                case "0" -> back = true;
+                default -> System.out.println("Invalid Choice.");
+            }
+        }
+    }
+
+    // ── COURSE MENU ───────────────────────────────────────
+    static void courseMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== COURSE MANAGEMENT ===");
+            System.out.println("[0] Back  [1] Add  [2] View All  [3] Update  [4] Remove");
+            System.out.print("Choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Course ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Course Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Program: ");
+                    String program = scanner.nextLine();
+
+                    courseService.addCourse(new Course(id, name, program));
+                    System.out.println("Course added successfully.");
+                }
+                case "2" -> {
+                    var list = courseService.getAllCourses();
+                    if (list.isEmpty()) {
+                        System.out.println("No courses found.");
+                    } else {
+                        System.out.println("\nList of Courses:");
+                        list.forEach(System.out::println);
+                    }
+                }
+                case "3" -> {
+                    System.out.print("Course ID to update: ");
+                    String id = scanner.nextLine();
+                    System.out.print("New Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("New Program: ");
+                    String program = scanner.nextLine();
+
+                    courseService.updateCourse(new Course(id, name, program));
+                    System.out.println("Update attempt completed.");
+                }
+                case "4" -> {
+                    System.out.print("Course ID to remove: ");
+                    String id = scanner.nextLine();
+                    String result = courseService.removeCourse(new Course(id, "", ""));
                     System.out.println("Result: " + result);
                 }
                 case "0" -> back = true;
