@@ -1,89 +1,64 @@
 package org.example;
 
-import org.example.model.Course;
-import org.example.model.Department;
-import org.example.model.Instructor;
-import org.example.model.Student;
-import org.example.model.Section;
-import org.example.service.ICourseService;
-import org.example.service.IEnrollmentService;
-import org.example.service.IInstructorService;
-import org.example.service.IStudentService;
-import org.example.service.impl.CourseServiceImpl;
-import org.example.service.impl.EnrollmentServiceImpl;
-import org.example.service.impl.InstructorServiceImpl;
-import org.example.service.impl.StudentServiceImpl;
-import org.example.service.TuitionFeePayment;
+import org.example.cli.*;
+import org.example.service.impl.*;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        // STUDENT REGISTRATION
-        IStudentService studentService = new StudentServiceImpl();
+        // Initialize Services
+        StudentServiceImpl studentService = new StudentServiceImpl();
+        InstructorServiceImpl instructorService = new InstructorServiceImpl();
+        CourseServiceImpl courseService = new CourseServiceImpl();
+        SectionServiceImpl sectionService = new SectionServiceImpl();
+        DepartmentServiceImpl departmentService = new DepartmentServiceImpl();
+        EnrollmentServiceImpl enrollmentService = new EnrollmentServiceImpl();
+        TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
-        // create
-        studentService.addStudent(new Student("000123", "John Doe", "Information Technology"));
+        // Initialize Menu Classes
+        StudentMenu studentMenu = new StudentMenu(scanner, studentService);
+        InstructorMenu instructorMenu = new InstructorMenu(scanner, instructorService, sectionService);
+        CourseMenu courseMenu = new CourseMenu(scanner, courseService);
+        SectionMenu sectionMenu = new SectionMenu(scanner, sectionService);
+        DepartmentMenu departmentMenu = new DepartmentMenu(scanner, departmentService);
+        EnrollmentMenu enrollmentMenu = new EnrollmentMenu(scanner, enrollmentService, studentService, sectionService, departmentService);
+        TuitionMenu tuitionMenu = new TuitionMenu(scanner, tuitionService);
 
-        // read
-        System.out.println(studentService.getAllStudents());
+        boolean running = true;
+        while (running) {
+            System.out.println("\n======================================");
+            System.out.println("===      ENROLLMENT SYSTEM         ===");
+            System.out.println("======================================");
+            System.out.println("[1] Student Management");
+            System.out.println("[2] Instructor Management");
+            System.out.println("[3] Course Management");
+            System.out.println("[4] Section Management");
+            System.out.println("[5] Department Management");
+            System.out.println("[6] Enrollment Management");
+            System.out.println("[7] Tuition Management");
+            System.out.println("[0] Exit");
+            System.out.print("Choice: ");
 
-        // update
-        studentService.updateStudent(new Student("000123", "John Doe", "Computer Science"));
+            String choice = scanner.nextLine();
 
-        // delete
-        studentService.removeStudent(new Student("000123", "John Doe", "Computer Science"));
-
-        // INSTRUCTOR REGISTRATION
-        IInstructorService instructorService = new InstructorServiceImpl();
-
-        // create
-        Instructor newInstructor = new Instructor("I-001", "Jane Smith", "Software Engineering");
-        instructorService.addInstructor(newInstructor);
-
-        // assign to section
-        Section section = new Section("SE-101", 30);
-        instructorService.assignInstructorToSection(newInstructor, section);
-
-        // read
-        System.out.println(instructorService.getInstructorDetails(newInstructor));
-
-        // COURSE REGISTRATION
-        ICourseService courseService = new CourseServiceImpl();
-
-        // create
-        courseService.addCourse(new Course("00001", "Integrative Programming", "Information Technology"));
-
-        // read
-        System.out.println(courseService.getAllCourses());
-
-        // update
-        courseService.updateCourse(new Course("00001", "Information Management", "Information Technology"));
-
-        // delete
-        courseService.removeCourse(new Course("00001", "Information Management", "Information Technology"));
-
-        // ENROLLMENT / DEPARTMENT SERVICE
-        IEnrollmentService enrollmentService = new EnrollmentServiceImpl();
-        Student currentStudent = new Student("000123", "John Doe", "Information Technology");
-        Section currentSection = new Section("IT-101", 40);
-
-        // enroll
-        enrollmentService.enrollStudentInSection(currentStudent, currentSection);
-
-        // department hierarchy
-        Department compSciDept = new Department("D-01", "Computer Science");
-        enrollmentService.viewDepartmentHierarchy(compSciDept);
-        TuitionFeePayment tuitionFeePayment = new TuitionFeePayment();
-
-        System.out.println(tuitionFeePayment.calculateTuitionFee(3, .10));
-        tuitionFeePayment.makePayment(2700);
-        System.out.println(tuitionFeePayment.getRemainingBalance());
-        System.out.println(tuitionFeePayment.isFullyPaid());
-
-        Student student = new Student();
-        student.mainTask();
-
-        Instructor instructor = new Instructor();
-        instructor.mainTask();
+            switch (choice) {
+                case "1" -> studentMenu.show();
+                case "2" -> instructorMenu.show();
+                case "3" -> courseMenu.show();
+                case "4" -> sectionMenu.show();
+                case "5" -> departmentMenu.show();
+                case "6" -> enrollmentMenu.show();
+                case "7" -> tuitionMenu.show();
+                case "0" -> {
+                    System.out.println("Goodbye!");
+                    running = false;
+                }
+                default -> System.out.println("Invalid choice.");
+            }
+        }
+        scanner.close();
     }
 }

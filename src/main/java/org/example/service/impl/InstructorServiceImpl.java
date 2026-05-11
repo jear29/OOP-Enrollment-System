@@ -17,8 +17,10 @@ public class InstructorServiceImpl implements IInstructorService {
 
     @Override
     public void assignInstructorToSection(Instructor instructor, Section section) {
+        section.setAssignedInstructor(instructor);
         System.out.println("Assigned instructor " + instructor.getName() + " to section " + section.getSectionId());
     }
+
 
     @Override
     public String getInstructorDetails(Instructor instructor) {
@@ -28,5 +30,31 @@ public class InstructorServiceImpl implements IInstructorService {
             }
         }
         return "Instructor not found.";
+    }
+
+    @Override
+    public void updateInstructor(Instructor instructor) {
+        for (int i = 0; i < instructorList.size(); i++) {
+            if (instructorList.get(i).getID().equals(instructor.getID())) {
+                instructorList.set(i, instructor);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public String removeInstructor(Instructor instructor) {
+        for (int i = 0; i < instructorList.size(); i++) {
+            if (instructorList.get(i).getID().equals(instructor.getID())) {
+                instructorList.remove(i);
+                return "Successfully removed";
+            }
+        }
+        return "Error";
+    }
+
+    @Override
+    public List<Instructor> getAllInstructors() {
+        return instructorList;
     }
 }

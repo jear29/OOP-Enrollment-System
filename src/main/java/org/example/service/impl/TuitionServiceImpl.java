@@ -19,6 +19,12 @@ public class TuitionServiceImpl implements ITuitionService {
     }
 
     @Override
+    public double calculateFee(TuitionFeePayment payment, int units, org.example.model.ScholarshipType scholarshipType) {
+        return calculateFee(payment, units, scholarshipType.getDiscountRate());
+    }
+
+
+    @Override
     public void makePayment(TuitionFeePayment payment, double amount) {
         double currentBalance = payment.getBalance();
         payment.setBalance(currentBalance - amount);

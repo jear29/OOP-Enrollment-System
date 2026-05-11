@@ -5,7 +5,7 @@ public class Course {
     private String courseName;
     private String program;
 
-    public Course (String courseID, String courseName, String program) {
+    public Course(String courseID, String courseName, String program) {
         this.courseID = courseID;
         this.courseName = courseName;
         this.program = program;

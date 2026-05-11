@@ -3,6 +3,7 @@ package org.example.model;
 public class Department {
     private String departmentId;
     private String departmentName;
+    private java.util.List<Section> sections = new java.util.ArrayList<>();
 
     public Department() {}
 
@@ -25,6 +26,14 @@ public class Department {
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+    public java.util.List<Section> getSections() {
+        return sections;
+    }
+
+    public void addSection(Section section) {
+        this.sections.add(section);
     }
 
     @Override
