@@ -13,7 +13,7 @@ public class InstructorServiceTest {
     public void testAddInstructor_DuplicateId_ThrowsException() throws DuplicateIdException {
         IInstructorService instructorService = new InstructorServiceImpl();
         Instructor i1 = new Instructor("I1", "Dr. Smith", "CS");
-        Instructor i2 = new Instructor("I1", "Prof. Jones", "IT"); // Duplicate ID
+        Instructor i2 = new Instructor("I1", "Prof. Jones", "IT");
 
         instructorService.addInstructor(i1);
 

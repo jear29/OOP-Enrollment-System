@@ -12,7 +12,6 @@ public class EnrollmentServiceTest {
 
     @Test
     public void testEnrollStudent_SectionIsFull_ThrowsException() throws SectionFullException {
-        // ARRANGE: Set up a section with a max capacity of 2
         Section testSection = new Section("SEC1", "BSIT-1A", 2);
         Student student1 = new Student("S01", "Alice", "IT");
         Student student2 = new Student("S02", "Bob", "IT");
@@ -20,11 +19,9 @@ public class EnrollmentServiceTest {
 
         IEnrollmentService enrollmentService = new EnrollmentServiceImpl();
 
-        // Fill the section to capacity
         enrollmentService.enrollStudentInSection(student1, testSection);
         enrollmentService.enrollStudentInSection(student2, testSection);
 
-        // ACT & ASSERT: Try to add a 3rd student and expect an exception
         assertThrows(SectionFullException.class, () -> {
             enrollmentService.enrollStudentInSection(student3, testSection);
         }, "Should throw SectionFullException when section is full");

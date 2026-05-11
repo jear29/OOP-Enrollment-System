@@ -13,7 +13,7 @@ public class StudentServiceTest {
     public void testAddStudent_DuplicateId_ThrowsException() throws DuplicateIdException {
         IStudentService studentService = new StudentServiceImpl();
         Student student1 = new Student("S1", "John", "IT");
-        Student student2 = new Student("S1", "Jane", "CS"); // Same ID
+        Student student2 = new Student("S1", "Jane", "CS");
 
         studentService.addStudent(student1);
 
