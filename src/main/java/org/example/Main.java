@@ -9,6 +9,7 @@ import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.impl.TuitionServiceImpl;
+import org.example.service.impl.SectionServiceImpl;
 
 import java.util.Scanner;
 
@@ -17,6 +18,7 @@ public class Main {
     static StudentServiceImpl studentService = new StudentServiceImpl();
     static InstructorServiceImpl instructorService = new InstructorServiceImpl();
     static CourseServiceImpl courseService = new CourseServiceImpl();
+    static SectionServiceImpl sectionService = new SectionServiceImpl();
     static TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
     public static void main(String[] args) {
@@ -28,7 +30,8 @@ public class Main {
             System.out.println("[1] Student Management");
             System.out.println("[2] Instructor Management");
             System.out.println("[3] Course Management");
-            System.out.println("[4] Tuition Management");
+            System.out.println("[4] Section Management");
+            System.out.println("[5] Tuition Management");
             System.out.println("[0] Exit");
             System.out.print("Choice: ");
 
@@ -38,7 +41,8 @@ public class Main {
                 case "1" -> studentMenu();
                 case "2" -> instructorMenu();
                 case "3" -> courseMenu();
-                case "4" -> tuitionMenu();
+                case "4" -> sectionMenu();
+                case "5" -> tuitionMenu();
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -234,6 +238,60 @@ public class Main {
                     System.out.print("Course ID to remove: ");
                     String id = scanner.nextLine();
                     String result = courseService.removeCourse(new Course(id, "", ""));
+                    System.out.println("Result: " + result);
+                }
+                case "0" -> back = true;
+                default -> System.out.println("Invalid Choice.");
+            }
+        }
+    }
+
+    // ── SECTION MENU ──────────────────────────────────────
+    static void sectionMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== SECTION MANAGEMENT ===");
+            System.out.println("[0] Back  [1] Add  [2] View All  [3] Update  [4] Remove");
+            System.out.print("Choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Section ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Section Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Max Capacity: ");
+                    int cap = Integer.parseInt(scanner.nextLine());
+
+                    sectionService.addSection(new Section(id, name, cap));
+                    System.out.println("Section added successfully.");
+                }
+                case "2" -> {
+                    var list = sectionService.getAllSections();
+                    if (list.isEmpty()) {
+                        System.out.println("No sections found.");
+                    } else {
+                        System.out.println("\nList of Sections:");
+                        list.forEach(System.out::println);
+                    }
+                }
+                case "3" -> {
+                    System.out.print("Section ID to update: ");
+                    String id = scanner.nextLine();
+                    System.out.print("New Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("New Capacity: ");
+                    int cap = Integer.parseInt(scanner.nextLine());
+
+                    sectionService.updateSection(new Section(id, name, cap));
+                    System.out.println("Update attempt completed.");
+                }
+                case "4" -> {
+                    System.out.print("Section ID to remove: ");
+                    String id = scanner.nextLine();
+                    String result = sectionService.removeSection(new Section(id, "", 0));
                     System.out.println("Result: " + result);
                 }
                 case "0" -> back = true;
