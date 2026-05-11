@@ -1,22 +1,22 @@
 package org.example.model;
 
 public class Instructor extends Person {
-    private String course;
+    private String department;
 
     public Instructor() {
     }
 
-    public Instructor(String ID, String name, String course) {
+    public Instructor(String ID, String name, String department) {
         super(ID, name);
-        this.course = course;
+        this.department = department;
     }
 
-    public String getCourse() {
-        return course;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Instructor extends Person {
         return "Instructor{" +
                 "instructorID='" + super.getID() + '\'' +
                 ", instructorName='" + super.getName() + '\'' +
-                ", course='" + course + '\'' +
+                ", department='" + department + '\'' +
                 '}';
     }
 
