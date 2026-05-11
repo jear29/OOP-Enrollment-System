@@ -12,6 +12,7 @@ import org.example.service.impl.StudentServiceImpl;
 import org.example.service.impl.TuitionServiceImpl;
 import org.example.service.impl.SectionServiceImpl;
 import org.example.service.impl.DepartmentServiceImpl;
+import org.example.service.impl.EnrollmentServiceImpl;
 
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class Main {
     static CourseServiceImpl courseService = new CourseServiceImpl();
     static SectionServiceImpl sectionService = new SectionServiceImpl();
     static DepartmentServiceImpl departmentService = new DepartmentServiceImpl();
+    static EnrollmentServiceImpl enrollmentService = new EnrollmentServiceImpl();
     static TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
     public static void main(String[] args) {
@@ -35,7 +37,8 @@ public class Main {
             System.out.println("[3] Course Management");
             System.out.println("[4] Section Management");
             System.out.println("[5] Department Management");
-            System.out.println("[6] Tuition Management");
+            System.out.println("[6] Enrollment Management");
+            System.out.println("[7] Tuition Management");
             System.out.println("[0] Exit");
             System.out.print("Choice: ");
 
@@ -47,7 +50,8 @@ public class Main {
                 case "3" -> courseMenu();
                 case "4" -> sectionMenu();
                 case "5" -> departmentMenu();
-                case "6" -> tuitionMenu();
+                case "6" -> enrollmentMenu();
+                case "7" -> tuitionMenu();
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -160,18 +164,26 @@ public class Main {
                     System.out.print("Section ID: ");
                     String sid = scanner.nextLine();
 
-                    Instructor target = null;
+                    Instructor targetI = null;
                     for (Instructor i : instructorService.getAllInstructors()) {
                         if (i.getID().equals(iid)) {
-                            target = i;
+                            targetI = i;
+                            break;
+                        }
+                    }
+                    
+                    Section targetS = null;
+                    for (Section s : sectionService.getAllSections()) {
+                        if (s.getSectionId().equals(sid)) {
+                            targetS = s;
                             break;
                         }
                     }
 
-                    if (target != null) {
-                        instructorService.assignInstructorToSection(target, new Section(sid, "N/A", 0));
+                    if (targetI != null && targetS != null) {
+                        instructorService.assignInstructorToSection(targetI, targetS);
                     } else {
-                        System.out.println("Instructor not found.");
+                        System.out.println("Instructor or Section not found.");
                     }
                 }
                 case "5" -> {
@@ -348,6 +360,100 @@ public class Main {
                     String id = scanner.nextLine();
                     String result = departmentService.removeDepartment(new Department(id, ""));
                     System.out.println("Result: " + result);
+                }
+                case "0" -> back = true;
+                default -> System.out.println("Invalid Choice.");
+            }
+        }
+    }
+
+    // ── ENROLLMENT MENU ───────────────────────────────────
+    static void enrollmentMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== ENROLLMENT MANAGEMENT ===");
+            System.out.println("[1] Enroll Student in Section");
+            System.out.println("[2] Add Section to Department");
+            System.out.println("[3] View Institutional Hierarchy");
+            System.out.println("[0] Back");
+            System.out.print("Choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Student ID: ");
+                    String sid = scanner.nextLine();
+                    System.out.print("Section ID: ");
+                    String secId = scanner.nextLine();
+
+                    Student student = null;
+                    for (Student s : studentService.getAllStudents()) {
+                        if (s.getID().equals(sid)) {
+                            student = s;
+                            break;
+                        }
+                    }
+
+                    Section section = null;
+                    for (Section s : sectionService.getAllSections()) {
+                        if (s.getSectionId().equals(secId)) {
+                            section = s;
+                            break;
+                        }
+                    }
+
+                    if (student != null && section != null) {
+                        enrollmentService.enrollStudentInSection(student, section);
+                    } else {
+                        System.out.println("Student or Section not found.");
+                    }
+                }
+                case "2" -> {
+                    System.out.print("Section ID: ");
+                    String secId = scanner.nextLine();
+                    System.out.print("Department ID: ");
+                    String deptId = scanner.nextLine();
+
+                    Section section = null;
+                    for (Section s : sectionService.getAllSections()) {
+                        if (s.getSectionId().equals(secId)) {
+                            section = s;
+                            break;
+                        }
+                    }
+
+                    Department department = null;
+                    for (Department d : departmentService.getAllDepartments()) {
+                        if (d.getDepartmentId().equals(deptId)) {
+                            department = d;
+                            break;
+                        }
+                    }
+
+                    if (section != null && department != null) {
+                        enrollmentService.addSectionToDepartment(section, department);
+                    } else {
+                        System.out.println("Section or Department not found.");
+                    }
+                }
+                case "3" -> {
+                    System.out.print("Department ID: ");
+                    String deptId = scanner.nextLine();
+
+                    Department department = null;
+                    for (Department d : departmentService.getAllDepartments()) {
+                        if (d.getDepartmentId().equals(deptId)) {
+                            department = d;
+                            break;
+                        }
+                    }
+
+                    if (department != null) {
+                        enrollmentService.viewDepartmentHierarchy(department);
+                    } else {
+                        System.out.println("Department not found.");
+                    }
                 }
                 case "0" -> back = true;
                 default -> System.out.println("Invalid Choice.");

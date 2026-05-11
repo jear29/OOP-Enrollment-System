@@ -17,8 +17,10 @@ public class InstructorServiceImpl implements IInstructorService {
 
     @Override
     public void assignInstructorToSection(Instructor instructor, Section section) {
+        section.setAssignedInstructor(instructor);
         System.out.println("Assigned instructor " + instructor.getName() + " to section " + section.getSectionId());
     }
+
 
     @Override
     public String getInstructorDetails(Instructor instructor) {

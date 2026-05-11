@@ -4,6 +4,8 @@ public class Section {
     private String sectionId;
     private String sectionName;
     private int maxCapacity;
+    private Instructor assignedInstructor;
+    private java.util.List<Student> enrolledStudents = new java.util.ArrayList<>();
 
     public Section() {}
 
@@ -35,6 +37,18 @@ public class Section {
 
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
+    }
+
+    public Instructor getAssignedInstructor() {
+        return assignedInstructor;
+    }
+
+    public void setAssignedInstructor(Instructor assignedInstructor) {
+        this.assignedInstructor = assignedInstructor;
+    }
+
+    public java.util.List<Student> getEnrolledStudents() {
+        return enrolledStudents;
     }
 
     @Override

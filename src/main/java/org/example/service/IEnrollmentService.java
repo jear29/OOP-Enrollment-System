@@ -6,5 +6,7 @@ import org.example.model.Student;
 
 public interface IEnrollmentService {
     void enrollStudentInSection(Student student, Section section);
+    void addSectionToDepartment(Section section, Department department);
     void viewDepartmentHierarchy(Department department);
 }
+
