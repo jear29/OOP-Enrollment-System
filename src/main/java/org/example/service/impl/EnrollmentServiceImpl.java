@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.exception.SectionFullException;
 import org.example.model.Department;
 import org.example.model.Section;
 import org.example.model.Student;
@@ -8,15 +9,15 @@ import org.example.service.IEnrollmentService;
 public class EnrollmentServiceImpl implements IEnrollmentService {
 
     @Override
-    public void enrollStudentInSection(Student student, Section section) {
+    public void enrollStudentInSection(Student student, Section section) throws SectionFullException {
         if (section.getEnrolledStudents().size() >= section.getMaxCapacity()) {
-            System.out.println("ERROR: Section " + section.getSectionName() + " is at full capacity (" + section.getMaxCapacity() + "). Enrollment rejected.");
-            return;
+            throw new SectionFullException("Enrollment failed: " + section.getSectionName() + " is currently full.");
         }
         
         section.getEnrolledStudents().add(student);
         System.out.println("Successfully enrolled student " + student.getName() + " into section " + section.getSectionName());
     }
+
 
     @Override
     public void addSectionToDepartment(Section section, Department department) {
