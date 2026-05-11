@@ -4,9 +4,11 @@ import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.model.Section;
+import org.example.model.TuitionFeePayment;
 import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
+import org.example.service.impl.TuitionServiceImpl;
 
 import java.util.Scanner;
 
@@ -15,6 +17,7 @@ public class Main {
     static StudentServiceImpl studentService = new StudentServiceImpl();
     static InstructorServiceImpl instructorService = new InstructorServiceImpl();
     static CourseServiceImpl courseService = new CourseServiceImpl();
+    static TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
     public static void main(String[] args) {
         boolean running = true;
@@ -25,6 +28,7 @@ public class Main {
             System.out.println("[1] Student Management");
             System.out.println("[2] Instructor Management");
             System.out.println("[3] Course Management");
+            System.out.println("[4] Tuition Management");
             System.out.println("[0] Exit");
             System.out.print("Choice: ");
 
@@ -34,6 +38,7 @@ public class Main {
                 case "1" -> studentMenu();
                 case "2" -> instructorMenu();
                 case "3" -> courseMenu();
+                case "4" -> tuitionMenu();
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -155,7 +160,7 @@ public class Main {
                     }
 
                     if (target != null) {
-                        instructorService.assignInstructorToSection(target, new Section(sid, 0));
+                        instructorService.assignInstructorToSection(target, new Section(sid, "N/A", 0));
                     } else {
                         System.out.println("Instructor not found.");
                     }
@@ -230,6 +235,49 @@ public class Main {
                     String id = scanner.nextLine();
                     String result = courseService.removeCourse(new Course(id, "", ""));
                     System.out.println("Result: " + result);
+                }
+                case "0" -> back = true;
+                default -> System.out.println("Invalid Choice.");
+            }
+        }
+    }
+
+    // ── TUITION MENU ──────────────────────────────────────
+    static void tuitionMenu() {
+        TuitionFeePayment sessionPayment = new TuitionFeePayment(0, 0);
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== TUITION MANAGEMENT (Session-based) ===");
+            System.out.println("[1] Calculate Fee  [2] Make Payment  [3] View Balance  [4] Check Status  [0] Back");
+            System.out.print("Choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Number of Units: ");
+                    int units = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Discount Rate (e.g., 0.1 for 10%): ");
+                    double discount = Double.parseDouble(scanner.nextLine());
+
+                    double total = tuitionService.calculateFee(sessionPayment, units, discount);
+                    System.out.println("Total Tuition Calculated: " + total);
+                }
+                case "2" -> {
+                    System.out.print("Amount to Pay: ");
+                    double amount = Double.parseDouble(scanner.nextLine());
+                    tuitionService.makePayment(sessionPayment, amount);
+                    System.out.println("Payment processed.");
+                }
+                case "3" -> {
+                    System.out.println("Current Balance: " + tuitionService.getRemainingBalance(sessionPayment));
+                }
+                case "4" -> {
+                    if (tuitionService.isFullyPaid(sessionPayment)) {
+                        System.out.println("Status: Fully Paid.");
+                    } else {
+                        System.out.println("Status: Not Fully Paid.");
+                    }
                 }
                 case "0" -> back = true;
                 default -> System.out.println("Invalid Choice.");
