@@ -27,6 +27,9 @@ Abstraction is implemented through abstract classes that serve as templates for 
 
 The system follows an interface-driven architecture to decouple business logic from the implementation. Each service (Student, Instructor, Enrollment, etc.) has a dedicated interface defining its capabilities, ensuring flexibility and easier maintenance.
 
+![img_9.png](src/main/resources/images/img_9.png)
+![img_10.png](src/main/resources/images/img_10.png)
+
 ---
 
 **5. Custom Exceptions**
