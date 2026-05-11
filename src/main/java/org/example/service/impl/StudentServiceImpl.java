@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.exception.DuplicateIdException;
 import org.example.model.Student;
 import org.example.service.IStudentService;
 
@@ -10,9 +11,15 @@ public class StudentServiceImpl implements IStudentService {
     private List<Student> studentList = new ArrayList<>();
 
     @Override
-    public void addStudent(Student student) {
+    public void addStudent(Student student) throws DuplicateIdException {
+        for (Student s : studentList) {
+            if (s.getID().equals(student.getID())) {
+                throw new DuplicateIdException("Student ID " + student.getID() + " already exists.");
+            }
+        }
         studentList.add(student);
     }
+
 
     @Override
     public List<Student> getAllStudents() {

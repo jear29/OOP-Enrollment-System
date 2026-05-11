@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.exception.InvalidPaymentAmountException;
 import org.example.model.TuitionFeePayment;
 import org.example.service.ITuitionService;
 
@@ -23,12 +24,15 @@ public class TuitionServiceImpl implements ITuitionService {
         return calculateFee(payment, units, scholarshipType.getDiscountRate());
     }
 
-
     @Override
-    public void makePayment(TuitionFeePayment payment, double amount) {
+    public void makePayment(TuitionFeePayment payment, double amount) throws InvalidPaymentAmountException {
+        if (amount <= 0) {
+            throw new InvalidPaymentAmountException("Payment failed: Amount must be greater than zero.");
+        }
         double currentBalance = payment.getBalance();
         payment.setBalance(currentBalance - amount);
     }
+
 
     @Override
     public double getRemainingBalance(TuitionFeePayment payment) {

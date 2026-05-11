@@ -1,5 +1,6 @@
 package org.example.cli;
 
+import org.example.exception.DuplicateIdException;
 import org.example.model.Student;
 import org.example.service.impl.StudentServiceImpl;
 
@@ -32,9 +33,14 @@ public class StudentMenu {
                     System.out.print("Program: ");
                     String program = scanner.nextLine();
 
-                    studentService.addStudent(new Student(id, name, program));
-                    System.out.println("Student added successfully.");
+                    try {
+                        studentService.addStudent(new Student(id, name, program));
+                        System.out.println("Student added successfully.");
+                    } catch (DuplicateIdException e) {
+                        System.out.println("ERROR: " + e.getMessage());
+                    }
                 }
+
                 case "2" -> {
                     var list = studentService.getAllStudents();
                     if (list.isEmpty()) {

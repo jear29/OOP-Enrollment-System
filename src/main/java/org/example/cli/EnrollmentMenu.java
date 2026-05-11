@@ -1,5 +1,6 @@
 package org.example.cli;
 
+import org.example.exception.SectionFullException;
 import org.example.model.Department;
 import org.example.model.Section;
 import org.example.model.Student;
@@ -65,11 +66,16 @@ public class EnrollmentMenu {
                     }
 
                     if (student != null && section != null) {
-                        enrollmentService.enrollStudentInSection(student, section);
+                        try {
+                            enrollmentService.enrollStudentInSection(student, section);
+                        } catch (SectionFullException e) {
+                            System.out.println("ERROR: " + e.getMessage());
+                        }
                     } else {
                         System.out.println("Student or Section not found.");
                     }
                 }
+
                 case "2" -> {
                     System.out.print("Section ID: ");
                     String secId = scanner.nextLine();

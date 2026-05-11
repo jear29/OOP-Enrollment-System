@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.exception.DuplicateIdException;
 import org.example.model.Instructor;
 import org.example.model.Section;
 import org.example.service.IInstructorService;
@@ -11,9 +12,15 @@ public class InstructorServiceImpl implements IInstructorService {
     private List<Instructor> instructorList = new ArrayList<>();
 
     @Override
-    public void addInstructor(Instructor instructor) {
+    public void addInstructor(Instructor instructor) throws DuplicateIdException {
+        for (Instructor i : instructorList) {
+            if (i.getID().equals(instructor.getID())) {
+                throw new DuplicateIdException("Instructor ID " + instructor.getID() + " already exists.");
+            }
+        }
         instructorList.add(instructor);
     }
+
 
     @Override
     public void assignInstructorToSection(Instructor instructor, Section section) {

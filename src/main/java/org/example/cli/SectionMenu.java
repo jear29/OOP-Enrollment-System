@@ -23,47 +23,52 @@ public class SectionMenu {
 
             String choice = scanner.nextLine();
 
-            switch (choice) {
-                case "1" -> {
-                    System.out.print("Section ID: ");
-                    String id = scanner.nextLine();
-                    System.out.print("Section Name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Max Capacity: ");
-                    int cap = Integer.parseInt(scanner.nextLine());
+            try {
+                switch (choice) {
+                    case "1" -> {
+                        System.out.print("Section ID: ");
+                        String id = scanner.nextLine();
+                        System.out.print("Section Name: ");
+                        String name = scanner.nextLine();
+                        System.out.print("Max Capacity: ");
+                        int cap = Integer.parseInt(scanner.nextLine());
 
-                    sectionService.addSection(new Section(id, name, cap));
-                    System.out.println("Section added successfully.");
-                }
-                case "2" -> {
-                    var list = sectionService.getAllSections();
-                    if (list.isEmpty()) {
-                        System.out.println("No sections found.");
-                    } else {
-                        System.out.println("\nList of Sections:");
-                        list.forEach(System.out::println);
+                        sectionService.addSection(new Section(id, name, cap));
+                        System.out.println("Section added successfully.");
                     }
-                }
-                case "3" -> {
-                    System.out.print("Section ID to update: ");
-                    String id = scanner.nextLine();
-                    System.out.print("New Name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("New Capacity: ");
-                    int cap = Integer.parseInt(scanner.nextLine());
+                    case "2" -> {
+                        var list = sectionService.getAllSections();
+                        if (list.isEmpty()) {
+                            System.out.println("No sections found.");
+                        } else {
+                            System.out.println("\nList of Sections:");
+                            list.forEach(System.out::println);
+                        }
+                    }
+                    case "3" -> {
+                        System.out.print("Section ID to update: ");
+                        String id = scanner.nextLine();
+                        System.out.print("New Name: ");
+                        String name = scanner.nextLine();
+                        System.out.print("New Capacity: ");
+                        int cap = Integer.parseInt(scanner.nextLine());
 
-                    sectionService.updateSection(new Section(id, name, cap));
-                    System.out.println("Update attempt completed.");
+                        sectionService.updateSection(new Section(id, name, cap));
+                        System.out.println("Update attempt completed.");
+                    }
+                    case "4" -> {
+                        System.out.print("Section ID to remove: ");
+                        String id = scanner.nextLine();
+                        String result = sectionService.removeSection(new Section(id, "", 0));
+                        System.out.println("Result: " + result);
+                    }
+                    case "0" -> back = true;
+                    default -> System.out.println("Invalid Choice.");
                 }
-                case "4" -> {
-                    System.out.print("Section ID to remove: ");
-                    String id = scanner.nextLine();
-                    String result = sectionService.removeSection(new Section(id, "", 0));
-                    System.out.println("Result: " + result);
-                }
-                case "0" -> back = true;
-                default -> System.out.println("Invalid Choice.");
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR: Invalid input. Please enter a number for capacity.");
             }
+
         }
     }
 }

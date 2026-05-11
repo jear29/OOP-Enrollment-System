@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Initialize Services
         StudentServiceImpl studentService = new StudentServiceImpl();
         InstructorServiceImpl instructorService = new InstructorServiceImpl();
         CourseServiceImpl courseService = new CourseServiceImpl();
@@ -18,13 +17,13 @@ public class Main {
         EnrollmentServiceImpl enrollmentService = new EnrollmentServiceImpl();
         TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
-        // Initialize Menu Classes
         StudentMenu studentMenu = new StudentMenu(scanner, studentService);
         InstructorMenu instructorMenu = new InstructorMenu(scanner, instructorService, sectionService);
         CourseMenu courseMenu = new CourseMenu(scanner, courseService);
         SectionMenu sectionMenu = new SectionMenu(scanner, sectionService);
         DepartmentMenu departmentMenu = new DepartmentMenu(scanner, departmentService);
-        EnrollmentMenu enrollmentMenu = new EnrollmentMenu(scanner, enrollmentService, studentService, sectionService, departmentService);
+        EnrollmentMenu enrollmentMenu = new EnrollmentMenu(scanner, enrollmentService, studentService, sectionService,
+                departmentService);
         TuitionMenu tuitionMenu = new TuitionMenu(scanner, tuitionService);
 
         boolean running = true;
