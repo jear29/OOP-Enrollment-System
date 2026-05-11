@@ -4,12 +4,14 @@ import org.example.model.Course;
 import org.example.model.Instructor;
 import org.example.model.Student;
 import org.example.model.Section;
+import org.example.model.Department;
 import org.example.model.TuitionFeePayment;
 import org.example.service.impl.CourseServiceImpl;
 import org.example.service.impl.InstructorServiceImpl;
 import org.example.service.impl.StudentServiceImpl;
 import org.example.service.impl.TuitionServiceImpl;
 import org.example.service.impl.SectionServiceImpl;
+import org.example.service.impl.DepartmentServiceImpl;
 
 import java.util.Scanner;
 
@@ -19,6 +21,7 @@ public class Main {
     static InstructorServiceImpl instructorService = new InstructorServiceImpl();
     static CourseServiceImpl courseService = new CourseServiceImpl();
     static SectionServiceImpl sectionService = new SectionServiceImpl();
+    static DepartmentServiceImpl departmentService = new DepartmentServiceImpl();
     static TuitionServiceImpl tuitionService = new TuitionServiceImpl();
 
     public static void main(String[] args) {
@@ -31,7 +34,8 @@ public class Main {
             System.out.println("[2] Instructor Management");
             System.out.println("[3] Course Management");
             System.out.println("[4] Section Management");
-            System.out.println("[5] Tuition Management");
+            System.out.println("[5] Department Management");
+            System.out.println("[6] Tuition Management");
             System.out.println("[0] Exit");
             System.out.print("Choice: ");
 
@@ -42,7 +46,8 @@ public class Main {
                 case "2" -> instructorMenu();
                 case "3" -> courseMenu();
                 case "4" -> sectionMenu();
-                case "5" -> tuitionMenu();
+                case "5" -> departmentMenu();
+                case "6" -> tuitionMenu();
                 case "0" -> {
                     System.out.println("Goodbye!");
                     running = false;
@@ -292,6 +297,56 @@ public class Main {
                     System.out.print("Section ID to remove: ");
                     String id = scanner.nextLine();
                     String result = sectionService.removeSection(new Section(id, "", 0));
+                    System.out.println("Result: " + result);
+                }
+                case "0" -> back = true;
+                default -> System.out.println("Invalid Choice.");
+            }
+        }
+    }
+
+    // ── DEPARTMENT MENU ───────────────────────────────────
+    static void departmentMenu() {
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== DEPARTMENT MANAGEMENT ===");
+            System.out.println("[0] Back  [1] Add  [2] View All  [3] Update  [4] Remove");
+            System.out.print("Choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Department ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Department Name: ");
+                    String name = scanner.nextLine();
+
+                    departmentService.addDepartment(new Department(id, name));
+                    System.out.println("Department added successfully.");
+                }
+                case "2" -> {
+                    var list = departmentService.getAllDepartments();
+                    if (list.isEmpty()) {
+                        System.out.println("No departments found.");
+                    } else {
+                        System.out.println("\nList of Departments:");
+                        list.forEach(System.out::println);
+                    }
+                }
+                case "3" -> {
+                    System.out.print("Department ID to update: ");
+                    String id = scanner.nextLine();
+                    System.out.print("New Name: ");
+                    String name = scanner.nextLine();
+
+                    departmentService.updateDepartment(new Department(id, name));
+                    System.out.println("Update attempt completed.");
+                }
+                case "4" -> {
+                    System.out.print("Department ID to remove: ");
+                    String id = scanner.nextLine();
+                    String result = departmentService.removeDepartment(new Department(id, ""));
                     System.out.println("Result: " + result);
                 }
                 case "0" -> back = true;
