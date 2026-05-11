@@ -35,12 +35,6 @@ public class Course {
         this.program = program;
     }
 
-    public void display() {
-        System.out.printf("\nCourse ID: %s\n", getCourseID());
-        System.out.printf("Course Name: %s\n", getCourseName());
-        System.out.printf("Program: %s\n", getProgram());
-    }
-
     @Override
     public String toString() {
         return "Course{" +

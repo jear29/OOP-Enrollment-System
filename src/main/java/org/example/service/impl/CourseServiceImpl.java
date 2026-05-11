@@ -1,20 +1,25 @@
-package org.example.service;
+package org.example.service.impl;
 
 import org.example.model.Course;
+import org.example.service.ICourseService;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CourseRegistration {
-    private ArrayList<Course> courseList = new ArrayList<>();
+public class CourseServiceImpl implements ICourseService {
+    private List<Course> courseList = new ArrayList<>();
 
-    public void save(Course course) {
+    @Override
+    public void addCourse(Course course) {
         courseList.add(course);
     }
 
-    public void displayAll() {
-        System.out.println(courseList);
+    @Override
+    public List<Course> getAllCourses() {
+        return courseList;
     }
 
+    @Override
     public void updateCourse(Course course) {
         for (int i = 0; i < courseList.size(); i++) {
             if (courseList.get(i).getCourseID().equals(course.getCourseID())) {
@@ -24,6 +29,7 @@ public class CourseRegistration {
         }
     }
 
+    @Override
     public String removeCourse(Course course) {
         for (int i = 0; i < courseList.size(); i++) {
             if (courseList.get(i).getCourseID().equals(course.getCourseID())) {
